@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require "pp"
 require "jvm_gclog"
 
 module Fluent
@@ -23,14 +22,15 @@ class JVMGCLogInput < TailInput
 
   def configure_parser(conf)
     @parser = JVMGCLog.new
+    @hostname = `hostname -s`.strip
   end
 
   def convert_line_to_event(line, es)
     begin
       line.chomp!  # remove \n
-      pp line
       record = @parser.parse(line)
       time = record.delete("time")
+      record["host"] = @hostname
       if time && record
           es.add(time, record)
       else
