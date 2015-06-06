@@ -4,7 +4,7 @@
 Gem::Specification.new do |gem|
   gem.authors       = ["Shinji Tanaka"]
   gem.email         = ["shinji.tanaka@gmail.com"]
-  gem.liceses       = ['Apache2']
+  gem.licenses       = ['Apache2']
   gem.name          = "fluent-plugin-jvm-gclog"
   gem.description   = %q{Fluent input plugin for JavaVM gc.log.}
   gem.summary       = %q{Fluent input plugin for JavaVM gc.log.}
