@@ -6,8 +6,8 @@ Gem::Specification.new do |gem|
   gem.email         = ["shinji.tanaka@gmail.com"]
   gem.licenses       = ['Apache2']
   gem.name          = "fluent-plugin-jvm-gclog"
-  gem.description   = %q{Fluent input plugin for JavaVM gc.log.}
-  gem.summary       = %q{Fluent input plugin for JavaVM gc.log.}
+  gem.description   = %q{Fluentd input plugin for JavaVM gc.log.}
+  gem.summary       = %q{Fluentd input plugin for JavaVM gc.log.}
   gem.homepage      = "https://github.com/stanaka/fluent-plugin-jvm-gclog"
 
   gem.files         = `git ls-files`.split($\)
@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = "0.0.1"
   gem.add_development_dependency "fluentd"
-  gem.add_runtime_dependency "fluentd"
+  gem.add_runtime_dependency "fluentd", '>= 0', '>= 0'
 end
