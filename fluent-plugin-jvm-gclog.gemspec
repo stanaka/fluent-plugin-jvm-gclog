@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = "0.0.1"
   gem.add_development_dependency "fluentd", '~> 0'
-  gem.add_runtime_dependency "fluentd", '~> 0'
+  gem.add_runtime_dependency "fluentd", '~> 0', '~> 0'
 end
