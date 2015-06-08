@@ -59,7 +59,11 @@ class JVMGCLogInput < TailInput
               @tag
             end
       begin
-        router.emit_stream(tag, es)
+        if defined? router
+          router.emit_stream(tag, es)
+        else
+          Engine.emit_stream(tag, es)
+        end
       rescue
         # ignore errors. Engine shows logs and backtraces.
       end
