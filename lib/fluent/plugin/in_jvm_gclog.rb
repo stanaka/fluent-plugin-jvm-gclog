@@ -25,33 +25,29 @@ class JVMGCLogInput < TailInput
     @hostname = `hostname -s`.strip
   end
 
-  def convert_line_to_event(line, es)
-    begin
-      line.chomp!  # remove \n
-      record = @parser.parse(line)
-      time = record.delete("time")
-      record["host"] = @hostname
-      if time && record
-          es.add(time, record)
-      else
-        log.warn "pattern not match: #{line.inspect}"
-      end
-    rescue => e
-      log.warn line.dump, :error => e.to_s
-      log.debug_backtrace(e.backtrace)
-    end
-  end
-
-  def parse_singleline(lines)
+  def parse_lines(lines)
     es = MultiEventStream.new
-    lines.each { |line|
-      convert_line_to_event(line, es)
+    chunks = @jvmgclog.recognize_chunks(lines)
+    records = @jvmgclog.parse_chunks(chunks)
+    records.each { |record|
+      begin
+        time = record.delete("time")
+        record["host"] = @hostname
+        if time && record
+          es.add(time, record)
+        else
+          log.warn "pattern not match: #{record.inspect}"
+        end
+      rescue => e
+        log.warn record, :error => e.to_s
+        log.debug_backtrace(e.backtrace)
+      end
     }
     es
   end
 
   def receive_lines(lines, tail_watcher = nil)
-    es = parse_singleline(lines)
+    es = parse_lines(lines)
     unless es.empty?
       tag = if @tag_prefix || @tag_suffix
               @tag_prefix + tail_watcher.tag + @tag_suffix
