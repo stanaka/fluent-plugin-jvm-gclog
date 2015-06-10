@@ -27,8 +27,8 @@ class JVMGCLogInput < TailInput
 
   def parse_lines(lines)
     es = MultiEventStream.new
-    chunks = @jvmgclog.recognize_chunks(lines)
-    records = @jvmgclog.parse_chunks(chunks)
+    chunks = @parser.recognize_chunks(lines)
+    records = @parser.parse_chunks(chunks)
     records.each { |record|
       begin
         time = record.delete("time")
